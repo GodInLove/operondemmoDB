@@ -1,0 +1,29 @@
+{% extends "admin/admin.html" %}
+{% import "ui/gene_page.html" as pg %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+             <a class="btn btn-default btn-primary icon fa-file-text-o" href="{{ url_for('admin.srr_task') }}">Srr Task
+                List</a>
+            <a class="btn btn-default btn-primary icon fa-plus-square-o" href="{{ url_for('admin.srr_task_add') }}">Add Srr Task</a>
+            <a class="btn btn-lg btn-primary icon  fa-file-text-o" href="#">SRR List</a>
+        </div>
+        <hr>
+        <div class="container">
+            <ul>
+                {% for v in page_data.items %}
+                    <li>Condition-{{ loop.index0 }}:<br>
+                    <ul>
+                    {% for u in v.reps %}
+                        <li>Rep-{{ loop.index0 }}:&nbsp;&nbsp;{{ u }}&nbsp;&nbsp;<a class="btn btn-info" href="{{ url_for("admin.srr_task_edit", _id=page_data.doc_id) }}">edit</a>&nbsp;</li>
+                    {% endfor %}
+                    </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="container">
+            {{ pg.page(page_data, 'admin.specie_gene') }}
+        </div>
+    </div>
+{% endblock %}

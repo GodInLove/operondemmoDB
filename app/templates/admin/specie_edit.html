@@ -1,0 +1,34 @@
+{% extends "admin/admin.html" %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <a class="btn btn-default btn-primary icon fa-file-text-o" href="{{ url_for('admin.specie') }}">Specie List</a>
+            <a class="btn btn-default btn-primary icon fa-plus-square-o" href="{{ url_for('admin.specie_add') }}">Add Specie</a>
+            <a class="btn btn-lg btn-primary icon icon fa-edit" href="{{ url_for('admin.specie_edit',_id = specie.kegg_id) }}">Edit Specie</a>
+        </div>
+        <div class="container">
+            <form method="post">{{ form.csrf_token }}
+                {{ form.kegg_id.label }}
+                <label class="alert-warning">The kegg id is a primary key which cannot be edited !</label>
+                <input disabled type="text" value="{{ specie.kegg_id }}"><br>
+                {{ form.specie_name.label }}{% for err in form.specie_name.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.specie_name(value=specie.specie_name) }}<br>
+                <label>gene file</label>
+                <label class="alert-warning">Just upload gff file when adding a new specie. It cannot be edited !</label>
+                {{ form.save_path.label }}{% for err in form.save_path.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.save_path(value=specie.gff_path) }}<br>
+                {{ form.submit }}<br>
+                {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                    <p class="btn-danger">{{ msg }}</p>
+                {% endfor %}
+                {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <p class="btn-success">{{ msg }}</p>
+                {% endfor %}
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

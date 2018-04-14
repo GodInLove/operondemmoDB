@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OperondemmoDB | Login</title>
+    <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+    {#    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">#}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+
+
+</head>
+
+<body>
+
+<div class="wrapper">
+    <br><br><br><br><br><br>
+    <form class="form-signin" method="post">
+        <div id="logo">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <h2 style="display: inline-block;background: #ff4486;color: #fff;border-radius: 6px;font-family: 'Oleo Script', serif;vertical-align: middle;">
+                &nbsp;&nbsp;OperondemmoDB&nbsp;&nbsp;</h2>
+            <br><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A Database of Bacterial Operon</span>
+        </div>
+        <hr>
+        {{ form.csrf_token }}
+        {% for err in form.admin_id.errors %}
+            <p class="text-danger">{{ err }}</p>
+        {% endfor %}
+        {{ form.admin_id.label }}{{ form.admin_id }}<br>
+        {% for err in form.password.errors %}
+            <p class="text-danger">{{ err }}</p>
+        {% endfor %}
+        {% for msg in get_flashed_messages() %}
+            <p class="text-danger">{{ msg }}</p>
+        {% endfor %}
+        {{ form.password.label }}{{ form.password }}<br>
+
+        {{ form.submit }}<br>
+    </form>
+</div>
+
+
+</body>
+
+</html>

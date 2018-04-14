@@ -1,0 +1,103 @@
+{% extends "admin/admin.html" %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <a class="btn btn-default btn-primary icon fa-file-text-o" href="{{ url_for('admin.srr_task') }}">Srr Task
+                List</a>
+            <a class="btn btn-lg btn-primary icon fa-plus-square-o" href="{{ url_for('admin.srr_task_add') }}">Add Srr Task</a>
+        </div>
+        <div class="container">
+            <form id="form" method="post" enctype="multipart/form-data">{{ form.csrf_token }}
+                <hr style="height:5px;border:none;border-top:5px ridge deepskyblue;"/>
+                {{ form.condition.label }}
+                {% for rep in form.condition %}
+                    {% set i_ter = loop.index0 %}
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Condition</th>
+                            <th>&nbsp;&nbsp;</th>
+                            <th>&nbsp;&nbsp;</th>
+                            <th>&nbsp;&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th><label>{{ rep.label }}</label></th>
+                            <th>
+                                {{ rep.condition_del }}
+{#                                <button class="btn btn-info icon fa-minus">remove</button>#}
+                            </th>
+                            <th>
+                                {{ rep.repeat_add }}
+{#                                <button class="btn btn-info icon fa-plus">repeat</button>#}
+                            </th>
+                            <th>&nbsp;&nbsp;</th>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Repeat</th>
+                            <th>Type</th>
+                            <th>Input</th>
+                            <th>&nbsp;&nbsp;</th>
+                            <th>&nbsp;&nbsp;</th>
+                            <th>&nbsp;&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody id="rep">
+                        {% for each in rep.repeat %}
+                            {% set j_ter = loop.index0 %}
+                            <tr>
+                                <th>{{ each.label }}</th>
+                                <th>{{ each.srr.label }}</th>
+                                <th>{{ each.srr }}</th>
+                                <th>&nbsp;&nbsp;</th>
+                                <th>
+                                    {{ each.repeat_del }}
+{#                                    <button class="btn btn-info icon fa-minus">remove</button>#}
+                                </th>
+                                <th>{% for err in each.srr.errors %}
+                                    <p class="text-danger">{{ err }}
+                                {% endfor %}</th>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+                <a>{{ form.condition_add }}</a>
+                <hr style="height:5px;border:none;border-top:5px ridge deepskyblue;"/>
+                {{ form.kegg_id.label }}{% for err in form.kegg_id.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.kegg_id }}
+                {{ form.browse_link.label }}{% for err in form.browse_link.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.browse_link }}
+                {{ form.operon_file.label }}{% for err in form.operon_file.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.operon_file() }}
+                {{ form.operon_path.label }}{% for err in form.operon_path.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.operon_path }}
+                {{ form.bw_path.label }}{% for err in form.bw_path.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.bw_path }}<br>
+                {{ form.method.label }}{% for err in form.method.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.method }}<br>
+                {{ form.submit }}<br>
+                {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                    <br><label class="btn-danger">{{ msg }}</label>
+                {% endfor %}
+                {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <br><label class="btn-success">{{ msg }}</label>
+                {% endfor %}
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

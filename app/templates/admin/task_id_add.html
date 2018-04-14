@@ -1,0 +1,28 @@
+{% extends "admin/admin.html" %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <a class="btn btn-default btn-primary icon fa-file-text-o" href="{{ url_for('admin.task_id') }}">Task ID List</a>
+            <a class="btn btn-lg btn-primary  icon fa-plus-square-o" href="{{ url_for('admin.task_id_add') }}">Add Task ID</a>
+        </div>
+        <div class="container">
+            <form method="post">{{ form.csrf_token }}
+                {{ form.srr_id.label }}{% for err in form.srr_id.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.srr_id }}<br>
+                {{ form.email.label }}{% for err in form.email.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.email }}<br>
+                {{ form.submit }}<br>
+                {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                    <p class="btn-danger">{{ msg }}</p>
+                {% endfor %}
+                {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <p class="btn-success">{{ msg }}</p>
+                {% endfor %}
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

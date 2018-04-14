@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+    <meta charset="UTF-8">
+    <meta lang="zh-CN">
+	<head>
+		<title>OperondemmoDB</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" />
+	</head>
+    <body class="homepage">
+        <div id="page-wrapper">
+            <div id="header-wrapper">
+					<header id="header" class="container">
+
+						<!-- Logo -->
+							<div id="logo">
+								<h1><a href="{{ url_for('home.index') }}">OperondemmoDB</a></h1>
+                                <br>&nbsp;&nbsp;&nbsp;<span>A Database of Bacterial Operon</span>
+							</div>
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+                                    <li>
+										<a href="{{ url_for('home.index') }}">Index</a>
+									</li>
+									<li>
+										<a href="{{ url_for('home.demonstration') }}">Demonstration</a>
+									</li>
+									<li>
+                                        <a href="{{ url_for('home.database') }}">Database</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('home.about') }}">About</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('home.contact') }}">Contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('admin.login') }}">Admin Login</a>
+                                    </li>
+								</ul>
+							</nav>
+
+					</header>
+				</div>
+
+            {% block content %} {% endblock %}
+
+            <div id="footer-wrapper">
+                <footer id="footer" class="container">
+                    <div class="row">
+
+                    </div>
+                    <div class="row">
+                        <div class="12u">
+                            <div id="copyright">
+                                <ul class="menu">
+                                    <li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+		<!-- Scripts -->
+
+			<script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='js/jquery.dropotron.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='js/skel.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='js/util.js') }}"></script>
+			<script src="{{ url_for('static',filename='js/main.js') }}"></script>
+
+	</body>
+</html>

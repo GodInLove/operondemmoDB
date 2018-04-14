@@ -1,0 +1,17 @@
+{% extends "admin/admin.html" %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <div id="content">
+                <h1>Table of Contents:</h1>
+                <div class="container">
+                     <a class="" href="{{ url_for('admin.specie') }}">Specie Management</a><br>
+                <a class="" href="{{ url_for('admin.srr_task') }}">SrrTask Management</a><br>
+                <a class="" href="{{ url_for('admin.task_id') }}">TaskID Management</a><br>
+                </div>
+                <br><br>
+                <a class="btn btn-default btn-lg icon fa-align-right" href="{{ url_for('admin.login_out') }}">Log Out</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

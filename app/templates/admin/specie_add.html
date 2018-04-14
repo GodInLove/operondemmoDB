@@ -1,0 +1,35 @@
+{% extends "admin/admin.html" %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+           <a class="btn btn-default btn-primary icon fa-file-text-o" href="{{ url_for('admin.specie') }}">Specie List</a>
+            <a class="btn btn-lg btn-primary icon fa-plus-square" href="{{ url_for('admin.specie_add') }}">Add
+                Specie</a>
+        </div>
+        <div class="container">
+            <form method="post" enctype=multipart/form-data>{{ form.csrf_token }}
+                {{ form.kegg_id.label }}{% for err in form.kegg_id.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.kegg_id }}
+                {{ form.specie_name.label }}{% for err in form.specie_name.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.specie_name }}
+                {{ form.gff_file.label }}{% for err in form.gff_file.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.gff_file() }}
+                {{ form.save_path.label }}{% for err in form.save_path.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.save_path }}<br>
+                {{ form.submit }}<br>
+                {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                    <p class="btn-danger">{{ msg }}</p>
+                {% endfor %}
+                {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <p class="btn-success">{{ msg }}</p>
+                {% endfor %}
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

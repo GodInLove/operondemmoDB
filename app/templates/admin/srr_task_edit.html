@@ -1,0 +1,45 @@
+{% extends "admin/admin.html" %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <a class="btn btn-default btn-primary icon fa-file-text-o" href="{{ url_for('admin.srr_task') }}">Srr Task
+                List</a>
+            <a class="btn btn-default btn-primary icon fa-plus-square-o" href="{{ url_for('admin.srr_task_add') }}">Add
+                Srr Task</a>
+            <a class="btn btn-lg btn-primary icon fa-edit"
+               href="{{ url_for('admin.srr_task_edit',_id = srr_task._id) }}">Edit
+                Srr Task</a>
+        </div>
+        <div class="container">
+            <form method="post">{{ form.csrf_token }}
+                <br>
+                <label class="alert-warning">The SRR NUM is a primary key which cannot be edited !</label>
+                <input disabled type="text" value="{{ srr_task._id}}"><br>
+                {{ form.kegg_id.label }}{% for err in form.kegg_id.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.kegg_id(value=srr_task.kegg_id) }}<br>
+                {{ form.browse_link.label }}{% for err in form.browse_link.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.browse_link(value=srr_task.browse_link) }}<br>
+                {{ form.bw_path.label }}{% for err in form.bw_path.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.bw_path(value=srr_task.bw_path) }}<br>
+                <label>operon file</label>
+                <label class="alert-warning">Just upload operon file when adding SRR NUM. It cannot be edited !</label>
+                {{ form.operon_path.label }}{% for err in form.operon_path.errors %}
+                    <p class="btn-danger">{{ err }}</p>
+                {% endfor %}{{ form.operon_path(value=srr_task.operon_path) }}<br>
+                {{ form.method.label }}{{ form.method }}<br>
+                {{ form.submit }}<br>
+                {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                    <p class="btn-danger">{{ msg }}</p>
+                {% endfor %}
+                {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <p class="btn-success">{{ msg }}</p>
+                {% endfor %}
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "admin/admin.html" %}
+{% import "ui/gene_page.html" as pg %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <a class="btn btn-lg btn-primary icon fa-file-text-o" href="{{ url_for('admin.srr_task') }}">Srr ID List</a>
+            <a class="btn btn-default btn-primary icon fa-plus-square-o" href="{{ url_for('admin.srr_task_add') }}">Add
+                Srr ID</a>
+            <a class="btn btn-lg btn-primary icon  fa-file-text-o" href="#">Operon List</a>
+        </div>
+        <hr>
+        <div class="container">
+            <ul>
+                {% for v in page_data.items %}
+                    <li>TU-{{ loop.index0 }}:&nbsp;&nbsp;<a class="btn btn-info" href="javaScript:alert('Forbidden ! Just upload operon file and we will generate this table !')">edit</a>&nbsp;&nbsp;<a class="btn btn-danger" href="javaScript:alert('Forbidden ! Just upload operon file and we will generate this table !')">delete</a>&nbsp;<br>
+                    <ul>
+                    {% for u in v.genes %}
+                       &nbsp;-&nbsp;{{ u.locus_tag }}
+                    {% endfor %}
+                    </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="container">
+            {{ pg.page(page_data, 'admin.srr_task_operon') }}
+        </div>
+    </div>
+{% endblock %}

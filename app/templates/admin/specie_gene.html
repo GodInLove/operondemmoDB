@@ -1,0 +1,42 @@
+{% extends "admin/admin.html" %}
+{% import "ui/gene_page.html" as pg %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <a class="btn btn-default btn-primary icon fa-file-text-o" href="{{ url_for('admin.specie') }}">Specie List</a>
+            <a class="btn btn-default btn-primary icon fa-plus-square" href="{{ url_for('admin.specie_add') }}">Add
+                Specie</a>
+            <a class="btn btn-lg btn-primary icon  fa-file-text-o" href="#">Gene List</a>
+        </div>
+        <hr>
+        <div class="container">
+            <table>
+                <tbody>
+                <tr>
+                    <th>locus tag</th>
+                    <th>start</th>
+                    <th>stop</th>
+                    <th>strand</th>
+                    <th>operator</th>
+                </tr>
+                {% for v in page_data.items %}
+                    <tr>
+                        <th>{{ v.locus_tag }}</th>
+                        <th>{{ v.start }}</th>
+                        <th>{{ v.stop }}</th>
+                        <th>{{ v.strand }}</th>
+                        <th><a class="btn btn-info" href="javaScript:alert('Forbidden ! Just upload gff file and we will generate this table !')">edit</a>&nbsp;
+                            <a class="btn btn-danger" href="javaScript:alert('Forbidden ! Just upload gff file and we will generate this table !')">delete</a></th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                <p style="color: greenyellow">{{ msg }}</p>
+            {% endfor %}
+        </div>
+        <div class="container">
+            {{ pg.page(page_data, 'admin.specie_gene') }}
+        </div>
+    </div>
+{% endblock %}

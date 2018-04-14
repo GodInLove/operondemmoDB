@@ -1,0 +1,39 @@
+{% extends "admin/admin.html" %}
+{% import "ui/admin_page.html" as pg %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <a class="btn btn-lg btn-primary icon fa-file-text-o" href="{{ url_for('admin.task_id') }}">Task ID List</a>
+            <a class="btn btn-default btn-primary icon fa-plus-square-o" href="{{ url_for('admin.task_id_add') }}">Add
+                Task ID</a>
+        </div>
+        <hr>
+        <div class="container">
+            <table>
+                <tbody>
+                <tr>
+                    <th>task id</th>
+                    <th>srr id</th>
+                    <th>email</th>
+                    <th>task time</th>
+                </tr>
+                {% for v in page_data.items %}
+                    <tr>
+                        <th>{{ v._id }}</th>
+                        <th>{{ v.srr_id }}</th>
+                        <th>{{ v.email }}</th>
+                        <th>{{ v.task_time }}</th>
+                        <th><a class="btn btn-info" href="{{ url_for('admin.task_id_edit',_id=v._id) }}">edit</a>&nbsp;<a class="btn btn-danger" href="{{ url_for('admin.task_id_del', _id=v._id) }}">delete</a></th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                <p style="color: greenyellow">{{ msg }}</p>
+            {% endfor %}
+        </div>
+        <div class="container">
+            {{ pg.page(page_data, 'admin.task_id_page') }}
+        </div>
+    </div>
+{% endblock %}

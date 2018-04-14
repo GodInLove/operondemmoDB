@@ -1,0 +1,42 @@
+{% extends "admin/admin.html" %}
+{% import "ui/admin_page.html" as pg %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+             <a class="btn btn-lg btn-primary icon fa-file-text-o" href="{{ url_for('admin.specie') }}">Specie List</a>
+            <a class="btn btn-default btn-primary icon fa-plus-square" href="{{ url_for('admin.specie_add') }}">Add Specie</a>
+
+        </div>
+        <hr>
+        <div class="container">
+            <table>
+                <tbody>
+                <tr>
+                    <th>kegg id</th>
+                    <th>name</th>
+                    <th>genes</th>
+                    <th>date</th>
+                    <th>operator</th>
+                </tr>
+                {% for v in page_data.items %}
+                    <tr>
+                        <th>{{ v.kegg_id }}</th>
+                        <th>{{ v.specie_name }}</th>
+                        <th><a href="{{ url_for('admin.specie_gene',_id=v.kegg_id) }}" class="btn btn-info icon fa-table">click here</a></th>
+                        <th>{{ v.add_time.date() }}</th>
+                        <th><a class="btn btn-info" href="{{ url_for('admin.specie_edit',_id=v.kegg_id) }}">edit</a>&nbsp;<a class="btn btn-danger" href="{{ url_for('admin.specie_del', _id=v.kegg_id) }}">delete</a></th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                <p style="color: greenyellow">{{ msg }}</p>
+            {% endfor %}
+        </div>
+        <div class="container">
+            {{ pg.page(page_data, 'admin.specie') }}
+        </div>
+    </div>
+    <script>
+    </script>
+{% endblock %}
