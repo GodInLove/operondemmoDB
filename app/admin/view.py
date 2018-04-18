@@ -81,10 +81,10 @@ def specie_add():
         f = specie_form.gff_file.data
         filename = secure_filename(f.filename)
         save_path = os.path.join(data["save_path"], "gff_file", filename)
-        if not os.path.exists(path):
-            os.system("mkdir " + path)
-        if not os.path.exists(os.path.join(path, "gff_file")):
-            os.system("mkdir " + os.path.join(path, "gff_file"))
+        if not os.path.exists(data["save_path"]):
+            os.system("mkdir " + data["save_path"])
+        if not os.path.exists(os.path.join(data["save_path"], "gff_file")):
+            os.system("mkdir " + os.path.join(data["save_path"], "gff_file"))
         f.save(save_path)
         new_specie = Specie(kegg_id=data["kegg_id"], specie_name=data["specie_name"], gff_path=data["save_path"],
                             add_time=datetime.now())
@@ -159,7 +159,6 @@ def srr_task_operon(_id=None, page=None):
 @admin_login_req
 def srr_task_add():
     srr_task_form = SrrTaskForm()
-    validate = True
     if srr_task_form.condition_add.data:
         srr_task_form.condition.append_entry()
         return render_template("admin/srr_task_add.html", form=srr_task_form)
@@ -178,38 +177,38 @@ def srr_task_add():
                 return render_template("admin/srr_task_add.html", form=srr_task_form)
             j_iter = j_iter + 1
         i_iter = i_iter + 1
-    if validate:
-        if srr_task_form.validate_on_submit():
-            data = srr_task_form.data
-            all_srr = []
-            srr_list = []
-            for con in data["condition"]:
-                srr_list.append([])
-                for each in con["repeat"]:
-                    srr_list[-1].append(each['srr'])
-                    all_srr.append(each['srr'])
-            all_srr = sorted(all_srr)
-            srr_id = "-".join(all_srr)
-            data_count = SrrTask.objects(_id=srr_id).count()
-            if data_count == 1:
-                flash("this srr_id is already exist !", "err")
-                return redirect(url_for("admin.srr_task_add"))
-            new_srr_task = SrrTask(_id=srr_id, kegg_id=data["kegg_id"], browse_link=data["browse_link"],
-                                   operon_path=data["operon_path"], bw_path=data["bw_path"], method=data["method"],
-                                   add_time=datetime.now())
-            new_srr_task.get_srr_nums(srr_list)
-            f = srr_task_form.operon_file.data
-            filename = secure_filename(f.filename)
-            save_path = os.path.join(data["operon_path"], "operon_file", filename)
-            if not os.path.exists(path):
-                os.system("mkdir " + path)
-            if not os.path.exists(os.path.join(path, "operon_file")):
-                os.system("mkdir " + os.path.join(path, "operon_file"))
-            f.save(save_path)
-            new_srr_task.get_operons_from_file(save_path)
-            new_srr_task.save()
-            flash("this srr_task is added !", "ok")
+
+    if srr_task_form.validate_on_submit():
+        data = srr_task_form.data
+        all_srr = []
+        srr_list = []
+        for con in data["condition"]:
+            srr_list.append([])
+            for each in con["repeat"]:
+                srr_list[-1].append(each['srr'])
+                all_srr.append(each['srr'])
+        all_srr = sorted(all_srr)
+        srr_id = "-".join(all_srr)
+        data_count = SrrTask.objects(_id=srr_id).count()
+        if data_count == 1:
+            flash("this srr_id is already exist !", "err")
             return redirect(url_for("admin.srr_task_add"))
+        new_srr_task = SrrTask(_id=srr_id, kegg_id=data["kegg_id"], browse_link=data["browse_link"],
+                               operon_path=data["operon_path"], bw_path=data["bw_path"], method=data["method"],
+                               add_time=datetime.now())
+        new_srr_task.get_srr_nums(srr_list)
+        f = srr_task_form.operon_file.data
+        filename = secure_filename(f.filename)
+        save_path = os.path.join(data["operon_path"], "operon_file", filename)
+        if not os.path.exists(path):
+            os.system("mkdir " + path)
+        if not os.path.exists(os.path.join(path, "operon_file")):
+            os.system("mkdir " + os.path.join(path, "operon_file"))
+        f.save(save_path)
+        new_srr_task.get_operons_from_file(save_path)
+        new_srr_task.save()
+        flash("this srr_task is added !", "ok")
+        return redirect(url_for("admin.srr_task_add"))
     return render_template("admin/srr_task_add.html", form=srr_task_form)
 
 

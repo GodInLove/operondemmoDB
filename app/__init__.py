@@ -10,6 +10,8 @@ app.config['MONGODB_SETTINGS'] = {
 app.config['SECRET_KEY'] = "5c3dd5b15c704463af33cfa4141e6572"
 app.debug = True
 path = app.instance_path
+process = 4
+
 from app.home import home as home_blueprint
 from app.admin import admin as admin_blueprint
 

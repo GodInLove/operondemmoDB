@@ -219,6 +219,7 @@ class SrrTaskForm(FlaskForm):
     method = SelectField(
         label="method",
         choices=[
+            ("rockhopper","rockhopper"),
             ("GD", "Gamma Domain"),
             ("NB", "Naive Bayes"),
         ]

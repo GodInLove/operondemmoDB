@@ -1,10 +1,98 @@
 {% extends "home/home.html" %}
-{% block content%}
+{% block content %}
     <div id="main-wrapper">
         <div class="container">
             <div id="content">
-                <form>
+                <form id="form" method="post" enctype="multipart/form-data">{{ form.csrf_token }}
+                    <hr style="height:5px;border:none;border-top:5px ridge deepskyblue;"/>
+                    {{ form.condition.label }}
+                    {% for rep in form.condition %}
+                        {% set i_ter = loop.index0 %}
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Condition</th>
+                                <th>&nbsp;&nbsp;</th>
+                                <th>&nbsp;&nbsp;</th>
+                                <th>&nbsp;&nbsp;</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th><label>{{ rep.label }}</label></th>
+                                <th>
+                                    {{ rep.condition_del }}
+                                    {#                                <button class="btn btn-info icon fa-minus">remove</button>#}
+                                </th>
+                                <th>
+                                    {{ rep.repeat_add }}
+                                    {#                                <button class="btn btn-info icon fa-plus">repeat</button>#}
+                                </th>
+                                <th>&nbsp;&nbsp;</th>
+                            </tr>
+                            </tbody>
+                        </table>
 
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Repeat</th>
+                                <th>Type</th>
+                                <th>Input</th>
+                                <th>&nbsp;&nbsp;</th>
+                                <th>&nbsp;&nbsp;</th>
+                                <th>&nbsp;&nbsp;</th>
+                            </tr>
+                            </thead>
+                            <tbody id="rep">
+                            {% for each in rep.repeat %}
+                                {% set j_ter = loop.index0 %}
+                                <tr>
+                                    <th>{{ each.label }}</th>
+                                    <th>{{ each.srr.label }}</th>
+                                    <th>{{ each.srr }}</th>
+                                    <th>&nbsp;&nbsp;</th>
+                                    <th>
+                                        {{ each.repeat_del }}
+                                        {#                                    <button class="btn btn-info icon fa-minus">remove</button>#}
+                                    </th>
+                                    <th>{% for err in each.srr.errors %}
+                                        <p class="text-danger">{{ err }}
+                                    {% endfor %}</th>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endfor %}
+                    <a>{{ form.condition_add }}</a>
+                    <hr style="height:5px;border:none;border-top:5px ridge deepskyblue;"/>
+                    <label>annotation files</label>
+                    {{ form.kegg_auto }}&nbsp;{{ form.kegg_not_auto }}
+                        {{ form.kegg_id.label }}{% for err in form.kegg_id.errors %}
+                            <p class="text-danger">{{ err }}
+                        {% endfor %}{{ form.kegg_id }}
+                    {% if auto == "n" %}
+                        {{ form.fna_file.label }}{% for err in form.fna_file.errors %}
+                            <p class="text-danger">{{ err }}
+                        {% endfor %}{{ form.fna_file }}
+                        {{ form.gff_file.label }}{% for err in form.gff_file.errors %}
+                            <p class="text-danger">{{ err }}
+                        {% endfor %}{{ form.gff_file }}
+                    {% endif %}
+                    <hr style="height:5px;border:none;border-top:5px ridge deepskyblue;"/>
+                    {{ form.software_select.label }}
+                    <label class="alert-info">如果我们发现输入的SRR对应的测序数据是单末端数据或者只来源于一个实验条件下，我们将固定使用rockhopper</label>
+                    {{ form.software_select }}
+                    <hr style="height:5px;border:none;border-top:5px ridge deepskyblue;"/>
+                    <label class="alert-info">当使用operondemmo时，有以下选项</label>
+                    {{ form.method_select.label }}
+                    {{ form.method_select }}
+                    {{ form.correlation_select.label }}
+                    {{ form.correlation_select }}
+                    <hr style="height:5px;border:none;border-top:5px ridge deepskyblue;"/>
+                    {{ form.email.label }}{{ form.email }}
+                    <br>
+                    {{ form.submit }}
                 </form>
             </div>
         </div>
