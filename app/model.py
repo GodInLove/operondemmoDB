@@ -74,7 +74,7 @@ class SrrTask(db.Document):
 
 
 class TaskId(db.Document):
-    _id = db.ObjectIdField()
+    task_id = db.StringField(primary_key=True)
     srr_id = db.StringField(required=True)
     email = db.EmailField(required=True)
     task_time = db.DateTimeField()

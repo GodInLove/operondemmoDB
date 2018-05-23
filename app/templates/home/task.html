@@ -1,0 +1,19 @@
+{% extends "home/home.html" %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="container">
+            <div id="content">
+                SRR ID: {{ each._id }}<br>
+                KEGG ID: {{ each.kegg_id }}<br>
+                METHOD: {{ each.method }}<br>
+                OPERON:
+                <a href="{{ url_for('home.srr_task_operon',_id=each._id) }}" class="btn btn-info icon fa-table">operon
+                    list</a><br>
+                OPERON FILE:
+                <a href="{{ url_for('home.download', _id=each._id) }}" class="btn btn-info icon fa-table">download operon file</a><br>
+                JBROWSE:
+                <a href="{{ each.jbrowse }}" class="btn btn-info icon fa-table">jbrowse</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

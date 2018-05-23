@@ -3,8 +3,19 @@
     <div id="main-wrapper">
         <div class="container">
             <div id="content">
-                <form>
-
+                <form id="form" method="post" enctype="multipart/form-data">{{ form.csrf_token }}
+                {{ form.email.label }}{{ form.email }}
+                    {% for err in form.email.errors %}
+                        {{ err }}
+                    {% endfor %}
+                {{ form.text.label }}{{ form.text }}<br>
+                {% for err in form.text.errors %}
+                        {{ err }}
+                    {% endfor %}
+                {{ form.submit }}<br>
+                {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <p class="btn-success">{{ msg }}</p>
+                {% endfor %}
                 </form>
             </div>
         </div>

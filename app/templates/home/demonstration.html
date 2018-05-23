@@ -3,9 +3,14 @@
     <div id="main-wrapper">
         <div class="container">
             <div id="content">
-                <form>
-
-                </form>
+                <label class="label-default">帮助文档：</label><br>
+                <strong>Input Srr ID</strong>: NCBI SRA数据库的编号，通常由SRR和几个数字组成。<br>
+                <strong>Condition</strong>: 做实验时的条件，不需要输入具体的条件，但需要通过页面上的“Condtion+”和“Conditon-”来调整为正确的数量。<br>
+                <strong>Repeat</strong>：做某个条件下的实验的重复，一般的实验重复数为3.但由于有些重复质量不加，因此本系统设为默认1.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;需要通过页面上的“Repeat+”和“Repeat-”来调整对应条件下的重复数。<br>
+                注：混搭输入不影响最后的结果。比如一个条件2组重复，而另一个条件3组重复。<br>
+                <strong>annotation files</strong>: 参考序列文件和基因注释文件，可以直接通过输入KEGG ID选择自动下载由本系统进行下载，也可以自行上传。<br>
+                <strong>software</strong>:用来预测操纵子的软件。可选为rockhopper和operondemmo.operondemmo是结合已有的Gamma domain方法（关于页面中的引用21）和naive bayes方法（关于页面中的引用9）在本系统中首次提出的。<br>
             </div>
         </div>
     </div>

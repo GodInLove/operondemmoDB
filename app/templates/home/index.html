@@ -90,7 +90,9 @@
                     {{ form.correlation_select.label }}
                     {{ form.correlation_select }}
                     <hr style="height:5px;border:none;border-top:5px ridge deepskyblue;"/>
-                    {{ form.email.label }}{{ form.email }}
+                    {{ form.email.label }}{% for err in form.email.errors %}
+                            <p class="text-danger">{{ err }}
+                        {% endfor %}{{ form.email }}
                     <br>
                     {{ form.submit }}
                 </form>

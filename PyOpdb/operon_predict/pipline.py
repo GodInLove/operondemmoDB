@@ -103,7 +103,6 @@ def extract_Synonym(ref_path, result_path):
                 f.write(content)
                 f.close()
     os.system("rm " + result_path + "/*_operons.txt")
-    print("Operons written to file:\t" + result_path + "_operon.txt")
 
 
 def extract_wig(wig_path, gff_path, result_path):
@@ -210,7 +209,7 @@ def res2jbrowse(ref_path, result_path, srr_n, kegg_id):
         "cd " + path + " && bin/add-bw-track.pl --bw_url " + srr_n + "_rev_sort.bw --key rev.bw --label rnaseq2 --pos_color red --plot")
     # operon.bw
     os.system(
-         "cd " + path + " && bin/add-bw-track.pl --bw_url operon.bw --key operon.bw --label rnaseq --pos_color blue --neg_color red --plot")
+        "cd " + path + " && bin/add-bw-track.pl --bw_url operon.bw --key operon.bw --label rnaseq --pos_color blue --neg_color red --plot")
     # handle reference .gff
     os.system(
         "cd " + path + " && bin/flatfile-to-json.pl --gff " + ref_path + "/*.gff --trackType CanvasFeatures --trackLabel gff")
@@ -221,3 +220,22 @@ def res2jbrowse(ref_path, result_path, srr_n, kegg_id):
     os.system("mv " + path + "/data/tracks.conf " + path + "/data/tracks.cofn")
     # change name "data" to srr_n
     os.system("cd " + path + " && mv data " + srr_n)
+
+
+def get_operon(result_path):
+    fp = open(result_path + "/operon.txt", 'w')
+    old_fp = open(result_path + "/_operon.txt", 'r')
+    _line = old_fp.readline()
+    while True:
+        _line = old_fp.readline().strip()
+        if not _line:
+            break
+        line_con = _line.split("\t")
+        operon = line_con[-1]
+        operon_list = operon.split(",")
+        new_list = []
+        for each in operon_list:
+            new_list.append(each.strip())
+        fp.write(";".join(new_list)+"\n")
+    old_fp.close()
+    fp.close()

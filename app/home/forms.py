@@ -1,7 +1,7 @@
 # coding:utf8
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import StringField, RadioField, SubmitField, FieldList, FormField, SelectField
+from wtforms import StringField, RadioField, SubmitField, FieldList, FormField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Email
 
 
@@ -53,6 +53,9 @@ class SubmitForm(FlaskForm):
     kegg_id = StringField(
         label="kegg id",
         description="kegg id",
+        validators=[
+            DataRequired("please enter the kegg id !")
+        ],
         render_kw={
             "placeholder": "please enter the kegg id",
         }
@@ -150,3 +153,47 @@ class MethodForm(FlaskForm):
         }
     )
 
+
+class ContactForm(FlaskForm):
+    email = StringField(
+        label="email",
+        validators=[
+            DataRequired("please enter the email !"),
+            Email("the format is wrong !")
+        ],
+        description="email",
+    )
+    text = TextAreaField(
+        label="content",
+        validators=[
+            DataRequired("please enter the message !"),
+        ]
+    )
+    submit = SubmitField(
+        label="submit",
+        render_kw={
+            "class": "btn btn-lg btn-primary btn-block",
+        }
+    )
+
+
+class DatabaseForm(FlaskForm):
+    select = SelectField(
+        label="select",
+        choices=[
+            ("specie", "specie"),
+            ("srr_task", "srr_task"),
+        ]
+    )
+    query = StringField(
+        label="query",
+        validators=[
+            DataRequired("please enter the query !"),
+        ]
+    )
+    submit = SubmitField(
+        label="submit",
+        render_kw={
+            "class": "btn btn-lg btn-primary btn-block",
+        }
+    )

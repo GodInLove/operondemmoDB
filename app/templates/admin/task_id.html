@@ -19,11 +19,11 @@
                 </tr>
                 {% for v in page_data.items %}
                     <tr>
-                        <th>{{ v._id }}</th>
+                        <th>{{ v.task_id }}</th>
                         <th>{{ v.srr_id }}</th>
                         <th>{{ v.email }}</th>
                         <th>{{ v.task_time }}</th>
-                        <th><a class="btn btn-info" href="{{ url_for('admin.task_id_edit',_id=v._id) }}">edit</a>&nbsp;<a class="btn btn-danger" href="{{ url_for('admin.task_id_del', _id=v._id) }}">delete</a></th>
+                        <th><a class="btn btn-info" href="{{ url_for('admin.task_id_edit',_id=v.task_id) }}">edit</a>&nbsp;<a class="btn btn-danger" href="{{ url_for('admin.task_id_del', _id=v.task_id) }}">delete</a></th>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -33,7 +33,7 @@
             {% endfor %}
         </div>
         <div class="container">
-            {{ pg.page(page_data, 'admin.task_id_page') }}
+            {{ pg.page(page_data, 'admin.task_id') }}
         </div>
     </div>
 {% endblock %}

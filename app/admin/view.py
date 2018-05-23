@@ -10,6 +10,7 @@ from functools import wraps
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from app import path
+import uuid
 
 
 def admin_login_req(f):
@@ -145,7 +146,7 @@ def srr_task_nums(_id=None, page=None):
 
 
 @admin.route("/srr_task/operon/<_id>/", methods=['GET'])
-@admin.route("/specie/operon/<_id>/<int:page>/", methods=['GET'])
+@admin.route("/srr_task/operon/<_id>/<int:page>/", methods=['GET'])
 @admin_login_req
 def srr_task_operon(_id=None, page=None):
     if page is None:
@@ -246,16 +247,12 @@ def srr_task_del(_id=None):
     return redirect(url_for("admin.srr_task"))
 
 
-# Task id
 @admin.route("/task_id/")
-@admin_login_req
-def task_id():
-    return redirect(url_for("admin.task_id_page", page=1))
-
-
 @admin.route("/task_id/<int:page>/", methods=['GET'])
 @admin_login_req
-def task_id_page(page=None):
+def task_id(page=None):
+    if page is None:
+        page = 1
     page_data = TaskId.objects().paginate(page=page, per_page=10)
     return render_template("admin/task_id.html", page_data=page_data)
 
@@ -266,7 +263,8 @@ def task_id_add():
     task_id_form = TaskIDForm()
     if task_id_form.validate_on_submit():
         data = task_id_form.data
-        new_task_id = TaskId(srr_id=data["srr_id"], email=data["email"], task_time=datetime.now())
+        new_task_id = TaskId(task_id=str(uuid.uuid1()), srr_id=data["srr_id"], email=data["email"],
+                             task_time=datetime.now())
         new_task_id.save()
         flash("this task is added !", "ok")
         return redirect(url_for("admin.task_id_add"))
@@ -282,17 +280,17 @@ def task_id_edit(_id=None):
         data = task_id_form.data
         data_count = Specie.objects(srr_id=data["srr_id"]).count()
         if data_count == 0:
-            TaskId.objects(_id=_id).update_one(set__srr_id=data["srr_id"])
-            TaskId.objects(_id=_id).update_one(set__email=data["email"])
-            TaskId.objects(_id=_id).update_one(set__task_time=datetime.now())
+            TaskId.objects(task_id=_id).update_one(set__srr_id=data["srr_id"])
+            TaskId.objects(task_id=_id).update_one(set__email=data["email"])
+            TaskId.objects(task_id=_id).update_one(set__task_time=datetime.now())
             flash("edit done !", "ok")
             return redirect(url_for("admin.task_id_edit", _id=_id))
         elif data_count == 1 and task_id_query.srr_id != data["srr_id"]:
             flash("this task is already exist !", "err")
             return redirect(url_for("admin.task_id_edit", _id=_id))
         elif data_count == 1 and task_id_query.srr_id == data["srr_id"]:
-            TaskId.objects(_id=_id).update_one(set__email=data["email"])
-            TaskId.objects(_id=_id).update_one(set__task_time=datetime.now())
+            TaskId.objects(task_id=_id).update_one(set__email=data["email"])
+            TaskId.objects(task_id=_id).update_one(set__task_time=datetime.now())
             flash("edit done !", "ok")
             return redirect(url_for("admin.task_id_edit", _id=_id))
     return render_template("admin/task_id_edit.html", form=task_id_form, task_id=task_id_query)
@@ -301,6 +299,6 @@ def task_id_edit(_id=None):
 @admin.route("/task_id/del/<_id>/", methods=['GET'])
 @admin_login_req
 def task_id_del(_id=None):
-    TaskId.objects(_id=_id).delete()
+    TaskId.objects(task_id=_id).delete()
     flash("delete it done !", "ok")
     return redirect(url_for("admin.task_id"))

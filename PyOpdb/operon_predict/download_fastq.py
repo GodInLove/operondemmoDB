@@ -1,9 +1,9 @@
 import os
-from app import path
+path = "/home/lyd/PycharmProjects/operondemmoDB/instance/"
 
 
 def srr_n_to_fastq(srr_n, layout, output_path):
-    tool_path = os.path.join(path, "tools", "fastq_dump")
+    tool_path = os.path.join(path, "tools", "fastq-dump")
     if layout == 1:
         print("running....\nfastq-dump " + srr_n + " -split-files -O " + output_path + " --gzip")
         if not os.path.exists(os.path.join(output_path, srr_n + "_1.fastq.gz")):
